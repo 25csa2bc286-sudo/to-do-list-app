@@ -1,87 +1,107 @@
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-// // Load saved tasks
+let tasks=JSON.parse(localStorage.getItem("tasks"))||[];
 displayTasks();
 
 // Add Task
 function addTask(){
-    let task = document.getElementById("task").value;
-    let date = document.getElementById("date").value;
-    let time = document.getElementById("time").value;
 
-    if(task === ""){
+    let task=document.getElementById("task").value.trim();
+    let date=document.getElementById("date").value;
+    let hour=document.getElementById("hour").value;
+    let minute=document.getElementById("minute").value;
+    let second=document.getElementById("second").value;
+    let priority=document.getElementById("priority").value;
+
+    if(task===""){
         alert("Please Enter Task");
         return;
     }
 
-    let newTask = {
-        text: task,
-        date: date,
-        time: time,
-        completed: false
+    let newTask={
+        text:task,
+        date:date,
+        hour:hour,
+        minute:minute,
+        second:second,
+        priority:priority,
+        completed:false
     };
 
     tasks.push(newTask);
     saveTasks();
     displayTasks();
 
-    // Input clear
-    document.getElementById("task").value = "";
-    document.getElementById("date").value = "";
-    document.getElementById("time").value = "";
+    document.getElementById("task").value="";
+    document.getElementById("date").value="";
+    document.getElementById("hour").value="";
+    document.getElementById("minute").value="";
+    document.getElementById("second").value="";
 }
 
-// Display Task
+// Display Tasks
 function displayTasks(){
-    let taskList = document.getElementById("taskList");
-    taskList.innerHTML = "";
+
+    let taskList=document.getElementById("taskList");
+    taskList.innerHTML="";
+
     tasks.forEach(function(item,index){
-        let li = document.createElement("li");
+
+        let li=document.createElement("li");
+
         if(item.completed){
             li.classList.add("completed");
         }
 
-        li.innerHTML = `
-        <span>
-            ${item.text}
+        let time="";
+
+        if(item.hour!==""||item.minute!==""||item.second!==""){
+            time=`${item.hour||"00"}:${item.minute||"00"}:${item.second||"00"}`;
+        }
+
+        li.innerHTML=`
+        <div class="task-content">
+            <strong>${item.text}</strong>
             <br>
-            <small>${item.date || ""} ${item.time || ""}</small>
-        </span>
+            <small>${item.date||""} ${time}</small>
+            <br>
+            <span class="priority ${item.priority.toLowerCase()}">${item.priority} Priority</span>
+        </div>
 
         <div class="task-buttons">
-            <button onclick="completeTask(${index})">
-                ✔
-            </button>
-
-            <button onclick="editTask(${index})">
-                ✏️
-            </button>
-
-            <button onclick="deleteTask(${index})">
-                ❌
-            </button>
+            <button class="complete-btn" onclick="completeTask(${index})">✔</button>
+            <button class="edit-btn" onclick="editTask(${index})">✏️</button>
+            <button class="delete-btn" onclick="deleteTask(${index})">❌</button>
         </div>
-         `;
+        `;
+
         taskList.appendChild(li);
     });
-    document.getElementById("taskCount").innerText = tasks.length;
+
+    let completed=tasks.filter(item=>item.completed).length;
+    let pending=tasks.length-completed;
+
+    document.getElementById("taskCount").innerText=tasks.length;
+    document.getElementById("completedCount").innerText=completed;
+    document.getElementById("pendingCount").innerText=pending;
 }
 
 // Complete Task
 function completeTask(index){
-    tasks[index].completed = !tasks[index].completed;
+
+    tasks[index].completed=!tasks[index].completed;
+
     saveTasks();
     displayTasks();
 }
 
 // Edit Task
 function editTask(index){
-    let newTask = prompt(
-        "Edit your task",
-        tasks[index].text
-    );
 
-    if(newTask !== null && newTask.trim() !== ""){
-        tasks[index].text = newTask;
+    let newTask=prompt("Edit your task",tasks[index].text);
+
+    if(newTask!==null&&newTask.trim()!==""){
+
+        tasks[index].text=newTask.trim();
+
         saveTasks();
         displayTasks();
     }
@@ -89,24 +109,35 @@ function editTask(index){
 
 // Delete Task
 function deleteTask(index){
-    tasks.splice(index,1);
-    saveTasks();
-    displayTasks();
-}
 
-// Clear All Task
-function clearTasks(){
-    if(confirm("Delete all tasks?")){
-        tasks = [];
+    if(confirm("Delete this task?")){
+
+        tasks.splice(index,1);
+
         saveTasks();
         displayTasks();
     }
 }
 
-// Save Task in Local Storage
+// Clear All Tasks
+function clearTasks(){
+
+    if(tasks.length===0){
+        alert("No tasks to clear.");
+        return;
+    }
+
+    if(confirm("Delete all tasks?")){
+
+        tasks=[];
+
+        saveTasks();
+        displayTasks();
+    }
+}
+
+// Save Tasks
 function saveTasks(){
-    localStorage.setItem(
-        "tasks",
-        JSON.stringify(tasks)
-    );
+
+    localStorage.setItem("tasks",JSON.stringify(tasks));
 }
