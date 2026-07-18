@@ -38,18 +38,15 @@ h1{
     outline:none;
 }
 
-.input-section input:focus,
-.input-section select:focus{
-    border-color:#4a90e2;
-}
-
 .time-section{
     display:flex;
     gap:8px;
+    width:100%;
 }
 
 .time-section input{
     width:33.33%;
+    min-width:0;
 }
 
 .input-section button{
@@ -91,11 +88,13 @@ li{
 
 .task-content{
     flex:1;
+    min-width:0;
 }
 
 .task-buttons{
     display:flex;
     gap:5px;
+    flex-shrink:0;
 }
 
 .task-buttons button{
@@ -159,26 +158,19 @@ li{
     cursor:pointer;
 }
 
-.clear-btn:hover{
-    background:#c0392b;
-}
-
 @media(max-width:500px){
+
     .container{
         width:100%;
         padding:20px;
     }
 
     li{
-        flex-direction:column;
         align-items:flex-start;
     }
 
     .task-buttons{
-        width:100%;
+        flex-shrink:0;
     }
 
-    .task-buttons button{
-        flex:1;
-    }
 }
