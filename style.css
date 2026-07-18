@@ -2,7 +2,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
 }
 
 body{
@@ -11,14 +11,15 @@ body{
     justify-content:center;
     align-items:center;
     background:linear-gradient(135deg,#7186e7,#8b65b2);
+    padding:20px;
 }
 
 .container{
-    width:420px;
+    width:450px;
     background:white;
     padding:30px;
     border-radius:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
 }
 
 h1{
@@ -27,7 +28,8 @@ h1{
     margin-bottom:20px;
 }
 
-.input-section input{
+.input-section input,
+.input-section select{
     width:100%;
     padding:12px;
     margin:8px 0;
@@ -36,8 +38,18 @@ h1{
     outline:none;
 }
 
-.input-section input:focus{
+.input-section input:focus,
+.input-section select:focus{
     border-color:#4a90e2;
+}
+
+.time-section{
+    display:flex;
+    gap:8px;
+}
+
+.time-section input{
+    width:33.33%;
 }
 
 .input-section button{
@@ -52,7 +64,7 @@ h1{
     cursor:pointer;
 }
 
-button:hover{
+.input-section button:hover{
     background:#357abd;
 }
 
@@ -74,32 +86,66 @@ li{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    gap:10px;
+}
+
+.task-content{
+    flex:1;
+}
+
+.task-buttons{
+    display:flex;
+    gap:5px;
 }
 
 .task-buttons button{
-    width:auto;
     padding:6px 10px;
-    margin-left:5px;
     border:none;
     border-radius:6px;
     cursor:pointer;
 }
 
-.task-buttons button:first-child{
+.complete-btn{
     background:#2ecc71;
+    color:white;
 }
 
-.task-buttons button:nth-child(2){
+.edit-btn{
     background:#f1c40f;
 }
 
-.task-buttons button:last-child{
+.delete-btn{
     background:#e74c3c;
+    color:white;
 }
 
 .completed{
     text-decoration:line-through;
-    opacity:0.6;
+    opacity:.6;
+}
+
+.priority{
+    display:inline-block;
+    padding:4px 8px;
+    margin-top:5px;
+    border-radius:5px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.low{
+    background:#2ecc71;
+    color:white;
+}
+
+.medium{
+    background:#f1c40f;
+    color:#333;
+}
+
+.high{
+    background:#e74c3c;
+    color:white;
 }
 
 .clear-btn{
@@ -119,7 +165,20 @@ li{
 
 @media(max-width:500px){
     .container{
-        width:90%;
+        width:100%;
         padding:20px;
+    }
+
+    li{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .task-buttons{
+        width:100%;
+    }
+
+    .task-buttons button{
+        flex:1;
     }
 }
