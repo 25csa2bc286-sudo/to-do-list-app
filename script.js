@@ -1,7 +1,7 @@
 let tasks=JSON.parse(localStorage.getItem("tasks"))||[];
+
 displayTasks();
 
-// Add Task
 function addTask(){
 
     let task=document.getElementById("task").value.trim();
@@ -27,6 +27,7 @@ function addTask(){
     };
 
     tasks.push(newTask);
+
     saveTasks();
     displayTasks();
 
@@ -37,10 +38,10 @@ function addTask(){
     document.getElementById("second").value="";
 }
 
-// Display Tasks
 function displayTasks(){
 
     let taskList=document.getElementById("taskList");
+
     taskList.innerHTML="";
 
     tasks.forEach(function(item,index){
@@ -53,16 +54,14 @@ function displayTasks(){
 
         let time="";
 
-        if(item.hour!==""||item.minute!==""||item.second!==""){
-            time=`${item.hour||"00"}:${item.minute||"00"}:${item.second||"00"}`;
+        if(item.hour||item.minute||item.second){
+            time=(item.hour||"00")+":"+(item.minute||"00")+":"+(item.second||"00");
         }
 
         li.innerHTML=`
         <div class="task-content">
-            <strong>${item.text}</strong>
-            <br>
-            <small>${item.date||""} ${time}</small>
-            <br>
+            <strong>${item.text}</strong><br>
+            <small>${item.date||""} ${time}</small><br>
             <span class="priority ${item.priority.toLowerCase()}">${item.priority} Priority</span>
         </div>
 
@@ -84,7 +83,6 @@ function displayTasks(){
     document.getElementById("pendingCount").innerText=pending;
 }
 
-// Complete Task
 function completeTask(index){
 
     tasks[index].completed=!tasks[index].completed;
@@ -93,7 +91,6 @@ function completeTask(index){
     displayTasks();
 }
 
-// Edit Task
 function editTask(index){
 
     let newTask=prompt("Edit your task",tasks[index].text);
@@ -107,7 +104,6 @@ function editTask(index){
     }
 }
 
-// Delete Task
 function deleteTask(index){
 
     if(confirm("Delete this task?")){
@@ -119,7 +115,6 @@ function deleteTask(index){
     }
 }
 
-// Clear All Tasks
 function clearTasks(){
 
     if(tasks.length===0){
@@ -136,7 +131,6 @@ function clearTasks(){
     }
 }
 
-// Save Tasks
 function saveTasks(){
 
     localStorage.setItem("tasks",JSON.stringify(tasks));
